@@ -44,5 +44,5 @@ button {
   @apply bg-primary-100 hover:bg-primary-200 text-white;
 }
 .btn-collapsible {
-  @apply w-full bg-[#f2f2f2] text-left rounded-none;
+  @apply w-full bg-[#f2f2f2] text-left rounded-none active:scale-100;
 }

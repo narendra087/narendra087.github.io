@@ -126,8 +126,8 @@ function App() {
                   <img src={Dropdown} alt="dropdown" width={10} height={10} className={`absolute right-[15px] top-[15px] ${userSelected?.id === user.id ? 'rotate-180' : 'rotate-0'}`} />
                   <div className={`${userSelected?.id === user.id ? 'flex' : 'hidden'} ${loadingRepo ? 'pl-0' : 'pl-10'} flex-col gap-3 mt-3`}>
                     { loadingRepo && <div className='flex items-center justify-center h-10 my-5'><img src={LoadingLogo} alt="loading" width={50} height={50} /></div> }
-                    { !loadingRepo && repoList.length < 1 && <p>This user doesn't have repository.</p> }
-                    { !loadingRepo && repoList.length && renderRepoList() }
+                    { !loadingRepo && repoList.length < 1 && <p className='text-secondary'>This user doesn't have repository.</p> }
+                    { !loadingRepo && repoList.length > 0 && renderRepoList() }
                   </div>
                 </div>
               )
