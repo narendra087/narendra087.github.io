@@ -13,11 +13,24 @@ function App() {
   const [isEmpty, setEmpty] = useState(false)
   const [userSelected, setUser] = useState<any>(null)
   
+  const [staticKeyword, setStaticKeyword] = useState('')
+  
   const [loadingRepo, setLoadingRepo] = useState(false)
   const [repoList, setRepo] = useState([])
   
+  useEffect(() => {
+    if (!keyword) {
+      setEmpty(false)
+    }
+  }, [keyword])
+  
+  
   const fetchUsers = async () => {
-    if (!keyword) return
+    if (!keyword) {
+      setUserList([])
+      return
+    }
+    setStaticKeyword(keyword)
     setLoading(true)
     
     try {
@@ -60,6 +73,15 @@ function App() {
     }
   }
   
+  const renderMain = () => {
+    return (
+      <div className='flex flex-col items-center justify-center h-[calc(100vh-200px)]'>
+        <p className='font-bold text-2xl'>Github Repository Explorer</p>
+        <p>Enter username to start exploring</p>
+      </div>
+    )
+  }
+  
   const renderLoading = () => {
     return (
       <div className='flex items-center justify-center h-[calc(100vh-200px)]'>
@@ -92,7 +114,7 @@ function App() {
   const renderList = () => {
     return (
       <div className='h-[calc(100vh-224px)] mt-3 overflow-auto'>
-        <p>Showing users for "{ keyword }"</p>
+        <p>Showing users for "{ staticKeyword }"</p>
         <div className="flex flex-col gap-3 pt-3">
           {
             userList.map((user:any) => {
@@ -132,7 +154,8 @@ function App() {
             <button className='btn-primary' onClick={fetchUsers}>Search</button>
           </div>
           { loading && renderLoading() }
-          { !loading && isEmpty && renderEmpty() }
+          { !loading && !keyword && !userList.length && renderMain() }
+          { !loading && isEmpty && keyword && renderEmpty() }
           { !loading && userList.length > 0 && renderList() }
         </div>
       </div>
