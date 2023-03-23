@@ -93,14 +93,14 @@ function App() {
   
   const renderLoading = () => {
     return (
-      <div className='flex items-center justify-center h-[calc(100vh-200px)]'>
+      <div className='flex items-center justify-center h-[calc(100vh-200px)]' data-testid="loading">
         <img src={LoadingLogo} alt="loading" width={100} height={100} />
       </div>
     )
   }
   const renderEmpty = () => {
     return (
-      <div className='flex flex-col items-center justify-center h-[calc(100vh-200px)]'>
+      <div className='flex flex-col items-center justify-center h-[calc(100vh-200px)]' data-testid="result-empty">
         <img src={NotFound} alt="no users" width={100} height={100} />
         <p className='font-bold text-2xl'>No Users Found</p>
         <p>Please try a different username</p>
@@ -122,7 +122,7 @@ function App() {
   
   const renderList = () => {
     return (
-      <div className='h-[calc(100vh-224px)] mt-3 overflow-auto'>
+      <div className='h-[calc(100vh-224px)] mt-3 overflow-auto' data-testid="result-list">
         <p>Showing users for "{ staticKeyword }"</p>
         <div className="flex flex-col gap-3 pt-3">
           {
@@ -153,6 +153,7 @@ function App() {
         <div className="max-w-2xl bg-[#FEFEFE] md:h-[calc(100vh-80px)] h-[calc(100vh-40px)] md:w-[calc(100vw-80px)] w-[calc(100vw-40px)] rounded-lg p-5">
           <div className="flex flex-col gap-5">
             <input
+              data-testid="input"
               className='h-10 w-full bg-[#F2F2F2] rounded-lg py-2 px-[15px]'
               placeholder='Enter username'
               type="text"
@@ -160,7 +161,7 @@ function App() {
               onKeyDown={handleKeyDown}
               value={keyword}
             />
-            <button className='btn-primary' onClick={fetchUsers}>Search</button>
+            <button data-testid="button" className='btn-primary' onClick={fetchUsers}>Search</button>
           </div>
           { loading && renderLoading() }
           { !loading && !keyword && !userList.length && renderMain() }
