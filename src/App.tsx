@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 import LoadingLogo from './assets/images/loading.svg'
 import NotFound from './assets/images/not-found.png'
@@ -24,6 +25,12 @@ function App() {
     }
   }, [keyword])
   
+  const errorNotify = (msg: any) => {
+    toast.error(msg, {
+      duration: 3000,
+      position: 'top-right',
+    })
+  }
   
   const fetchUsers = async () => {
     if (!keyword) {
@@ -35,7 +42,7 @@ function App() {
     
     try {
       const res = await axios.get(`https://api.github.com/search/users?q=${keyword}&per_page=5`)
-      console.log(res)
+      // console.log(res)
       if (res?.data?.items.length < 1) {
         setEmpty(true)
       } else {
@@ -44,6 +51,7 @@ function App() {
       setUserList(res?.data?.items)
     } catch (error) {
       console.log(error)
+      errorNotify('There is a problem, please try again.')
     }
     
     setLoading(false)
@@ -64,10 +72,11 @@ function App() {
       setLoadingRepo(true)
       try {
         const res = await axios.get(user.repos_url)
-        console.log(res)
+        // console.log(res)
         setRepo(res.data)
       } catch (error) {
         console.log(error)
+        errorNotify('There is a problem, please try again.')
       }
       setLoadingRepo(false)
     }
@@ -155,10 +164,11 @@ function App() {
           </div>
           { loading && renderLoading() }
           { !loading && !keyword && !userList.length && renderMain() }
-          { !loading && isEmpty && keyword && renderEmpty() }
           { !loading && userList.length > 0 && renderList() }
+          { !loading && isEmpty && keyword && renderEmpty() }
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }
